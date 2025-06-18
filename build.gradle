@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'com.x404dev'
+version = '1.0.0-SNAPSHOT'
+description = 'AdvancedQOL Plugin for Spigot/Paper'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    // Spigot API
+    compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
+
+    // Adventure API (for modern text components)
+    implementation 'net.kyori:adventure-api:4.21.0'
+    implementation 'net.kyori:adventure-text-minimessage:4.21.0'
+    implementation 'net.kyori:adventure-text-serializer-legacy:4.21.0'
+    implementation 'net.kyori:adventure-platform-bukkit:4.4.0'
+}
+
+shadowJar {
+    archiveBaseName = 'AstralQOL-Spigot'
+    archiveClassifier = ''
+
+    // Relocate dependencies to avoid conflicts
+    relocate 'net.kyori.adventure', 'com.x404dev.astralQOL.libs.adventure'
+    relocate 'net.kyori.examination', 'com.x404dev.astralQOL.libs.examination'
+    relocate 'net.kyori.option', 'com.x404dev.astralQOL.libs.option'
+
+
+    // Minimize JAR size
+    minimize()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    def props = [version: version, description: description]
+    inputs.properties props
+    expand props
+}
+
+// Make shadowJar the default build task
+build.dependsOn shadowJar

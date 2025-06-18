@@ -1,0 +1,7 @@
+name: AstralQOL
+version: ${version}
+description: ${description}
+main: com.x404dev.astralQOL.AstralQOL
+api-version: '1.21'
+authors: [ x404 ]
+website: https://x404dev.com
