@@ -1,17 +1,57 @@
 package com.x404dev.astralQOL;
 
+import com.x404dev.astralQOL.managers.ProfileManager;
+import com.x404dev.astralQOL.managers.QOLManager;
+import com.x404dev.astralQOL.utils.AdventureHelper;
+import lombok.Getter;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class AstralQOL extends JavaPlugin {
 
+    @Getter
+    private static AstralQOL instance;
+
+    private BukkitAudiences adventure;
+    @Getter
+    private AdventureHelper adventureHelper;
+
+    @Getter
+    private ProfileManager profileManager;
+    @Getter
+    private QOLManager qolManager;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        instance = this;
+        // Initialize Adventure API
+        adventure = BukkitAudiences.create(this);
+        // Initialize helper classes
+        adventureHelper = new AdventureHelper(adventure);
+        profileManager = new ProfileManager(this);
+        qolManager = new QOLManager(this);
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        instance = null;
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
+        profileManager = null;
+        if (qolManager != null) {
+            qolManager.shutdown();
+        }
     }
+
+    public BukkitAudiences adventure() {
+        if (this.adventure == null) {
+            throw new IllegalStateException("Adventure API not initialized");
+        }
+        return this.adventure;
+    }
+
+
 }
