@@ -1,6 +1,7 @@
 package com.x404dev.astralQOL.utils;
 
 import com.x404dev.astralQOL.AstralQOL;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;

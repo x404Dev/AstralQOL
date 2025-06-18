@@ -16,6 +16,7 @@ public abstract class QOLFeature {
     protected final String description;
     @Getter
     protected final String permission;
+    @Getter
     protected final AstralQOL plugin;
 
     public QOLFeature(String id, String displayName, String description, String permission, AstralQOL plugin) {

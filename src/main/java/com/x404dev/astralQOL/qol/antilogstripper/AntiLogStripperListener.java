@@ -1,8 +1,12 @@
 package com.x404dev.astralQOL.qol.antilogstripper;
 
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.Objects;
 
 public class AntiLogStripperListener implements Listener {
 
@@ -18,12 +22,25 @@ public class AntiLogStripperListener implements Listener {
 
         if (shouldPreventLogStripping(event)) {
             event.setCancelled(true);
-            event.getPlayer().sendMessage("Log stripping prevented!");
+            feature.getPlugin().getAdventureHelper().sendMessage(event.getPlayer(), feature.getPlugin().getAdventureHelper().parseMessage("<green>Log stripping prevented. Hold <b>Shift</b> to strip, or disable protection: <b><gold>/qol toggle anti-log-stripper</gold></b>"));
         }
     }
 
     private boolean shouldPreventLogStripping(PlayerInteractEvent event) {
-        return feature.canUse(event.getPlayer()) && !event.getPlayer().isSneaking();
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return false;
+        }
+
+        if (!Strippable.isAxe(event.getMaterial())) {
+            return false;
+        }
+
+        Block clickedBlock = event.getClickedBlock();
+        if (clickedBlock == null || !Strippable.isStrippableBlock(clickedBlock.getType())) {
+            return false;
+        }
+
+        return !event.getPlayer().isSneaking();
     }
 
 }

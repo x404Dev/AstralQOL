@@ -2,6 +2,7 @@ package com.x404dev.astralQOL.managers;
 
 import com.x404dev.astralQOL.AstralQOL;
 import com.x404dev.astralQOL.qol.QOLFeature;
+import com.x404dev.astralQOL.qol.antilogstripper.AntiLogStripperFeature;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -35,6 +36,7 @@ public class QOLManager {
 
         // Register all QOL features here
 //        registerFeature(new AntiLogStripperFeature(plugin));
+        registerFeature(new AntiLogStripperFeature(plugin));
 
         // Enable all features
         enableAllFeatures();
