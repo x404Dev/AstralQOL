@@ -1,6 +1,8 @@
 package com.x404dev.astralQOL;
 
 import com.x404dev.astralQOL.commands.QOLCommand;
+import com.x404dev.astralQOL.config.PlayerDataFile;
+import com.x404dev.astralQOL.config.Settings;
 import com.x404dev.astralQOL.managers.ProfileManager;
 import com.x404dev.astralQOL.managers.QOLManager;
 import com.x404dev.astralQOL.utils.AdventureHelper;
@@ -22,6 +24,8 @@ public final class AstralQOL extends JavaPlugin {
     private ProfileManager profileManager;
     @Getter
     private QOLManager qolManager;
+    @Getter
+    private PlayerDataFile playerDataFile;
 
     @Override
     public void onEnable() {
@@ -35,6 +39,9 @@ public final class AstralQOL extends JavaPlugin {
         qolManager.initialize();
 
         Commons.registerCommands(new QOLCommand(this));
+
+        Settings.init(this);
+        playerDataFile = new PlayerDataFile(this);
 
     }
 

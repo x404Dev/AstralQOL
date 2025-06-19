@@ -1,6 +1,7 @@
 package com.x404dev.astralQOL.models;
 
 import com.x404dev.astralQOL.AstralQOL;
+import com.x404dev.astralQOL.config.Settings;
 import com.x404dev.astralQOL.qol.QOLFeature;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -23,13 +24,14 @@ public class PlayerQOLProfile {
     }
 
     private void initializeDefaultStates() {
-        for (QOLFeature feature : plugin.getQolManager().getAllFeatures()) {
-            featureStates.putIfAbsent(feature.getId(), true); // default enabled
-        }
+//        for (QOLFeature feature : plugin.getQolManager().getAllFeatures()) {
+//            featureStates.putIfAbsent(feature.getId(), true); // default enabled
+//        }
+        featureStates.putAll(Settings.DEFAULT_FEATURES_STATE);
     }
 
     public boolean isFeatureEnabled(String featureId) {
-        return featureStates.getOrDefault(featureId, true);
+        return featureStates.getOrDefault(featureId, Settings.DEFAULT_FEATURES_STATE.getOrDefault(featureId, false));
     }
 
     public void setFeatureEnabled(String featureId, boolean enabled) {
